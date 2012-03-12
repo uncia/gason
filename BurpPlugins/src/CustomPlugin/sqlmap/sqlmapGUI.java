@@ -592,7 +592,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setTitle("SQL Map wrapper by Cr0hn");
+        setTitle("SQLMap wrapper v0.9.6 - by Cr0hn (@ggdaniel)");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -1248,8 +1248,6 @@ public class sqlmapGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tbl_main);
 
         getContentPane().add(jScrollPane2);
-
-        getAccessibleContext().setAccessibleName("SQL Map wrapper by Cr0hn (@ggdaniel)");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
