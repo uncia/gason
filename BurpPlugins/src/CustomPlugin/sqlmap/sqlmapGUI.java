@@ -40,6 +40,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 
 /**
@@ -337,11 +338,16 @@ public class sqlmapGUI extends javax.swing.JFrame {
             String l_p = "";
             for(int p = 0; p < l_params_values.length; p++)
             {
-                l_p += l_params_values[p].toString();
-
-                if (p + 1 != l_params_values.length)
+                String l_p_splited[] = l_params_values[p].toString().split("=");
+                
+                if(l_p_splited.length > 0)
                 {
-                    l_p += ",";
+                    l_p += l_p_splited[0];
+
+                    if (p + 1 != l_params_values.length)
+                    {
+                        l_p += ",";
+                    }
                 }
             }
             l_params.add(l_p);
@@ -415,8 +421,6 @@ public class sqlmapGUI extends javax.swing.JFrame {
         l_params.add("-u");
         l_params.add(m_url);
 
-
-
         return l_params;
     }
 
@@ -440,9 +444,12 @@ public class sqlmapGUI extends javax.swing.JFrame {
 
         try {
             List<String> m_command = this.GetCommand(url);
-            
+
+            if(chk_debug.isSelected())
+                System.out.println("[Debug] Command to run: " + this.GetCommandString(url));
+
             // Execute
-            sqlmapTab pt = new sqlmapTab(m_command, this.cmb_urls.getSelectedItem().toString(), this.tbl_main);
+            sqlmapTab pt = new sqlmapTab(m_command, this.cmb_urls.getSelectedItem().toString(), this.tbl_main, chk_debug.isSelected());
             Thread tr = new Thread(pt);
 
             // Add to tabs container and thread list
@@ -555,6 +562,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
         chk_optimization_page_lenth = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
         txt_optimization_threads = new javax.swing.JTextField();
+        chk_debug = new javax.swing.JCheckBox();
         bnt_run = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -598,7 +606,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane2.setMinimumSize(new java.awt.Dimension(50, 50));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(590, 660));
@@ -1211,6 +1219,11 @@ public class sqlmapGUI extends javax.swing.JFrame {
         jPanel7.add(txt_optimization_threads);
         txt_optimization_threads.setBounds(70, 110, 57, 19);
 
+        chk_debug.setText("Debug");
+        chk_debug.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel7.add(chk_debug);
+        chk_debug.setBounds(190, 110, 70, 19);
+
         jPanel4.add(jPanel7);
         jPanel7.setBounds(0, 450, 270, 140);
 
@@ -1277,7 +1290,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showMessageDialog(this, "This plugin was developed by Daniel García (cr0hn) - dani@iniqua.com | @ggdaniel\n\nLinkedin: http://es.linkedin.com/in/garciagarciadaniel\nProyect page: http://code.google.com/p/gason/\nDoc: http://blog.buguroo.com/?p=2471", "Help", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "This plugin was developed by Daniel García (cr0hn) - dani@iniqua.com | @ggdaniel\n\nLinkedin: http://es.linkedin.com/in/garciagarciadaniel\nProject page: http://code.google.com/p/gason/\nDoc: http://blog.buguroo.com/?p=2471", "Help", JOptionPane.INFORMATION_MESSAGE);
 }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
@@ -1319,7 +1332,10 @@ public class sqlmapGUI extends javax.swing.JFrame {
             evt.consume();
 
             String p = lst_params.getSelectedValue().toString();
+            int index = lst_params.getSelectedIndex();
+            
             if(p != null && !p.isEmpty()) {
+                // Get param name and value
                 String p_splited[] = p.split("=");
                 String p_name = "";
                 String p_value = "";
@@ -1328,15 +1344,18 @@ public class sqlmapGUI extends javax.swing.JFrame {
                 if(p_splited.length > 1)
                     p_value = p_splited[1];
 
+                // Show dialog
                 Dialog_param _editor = new Dialog_param(p_name, p_value, this, true);
                 _editor.setVisible(true);
-
+                // Get modified fields
                 p_name = _editor.param_name;
                 p_value = _editor.param_value;
+                
                 // Modify selected value
                 DefaultComboBoxModel m = ((DefaultComboBoxModel) lst_params.getModel());
                 m.removeElementAt(lst_params.getSelectedIndex());
-                m.addElement((Object)(p_name + "=" + p_value));
+                //m.addElement((Object)(p_name + "=" + p_value));
+                m.insertElementAt((Object)(p_name + "=" + p_value), index);
 
             }
         } else {
@@ -1448,6 +1467,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox chk_chardoubleencode;
     private javax.swing.JCheckBox chk_charencode;
     private javax.swing.JCheckBox chk_charunicodeencode;
+    private javax.swing.JCheckBox chk_debug;
     private javax.swing.JCheckBox chk_equaltolike;
     private javax.swing.JCheckBox chk_fingerprint;
     private javax.swing.JCheckBox chk_halfversionedmorekeywords;

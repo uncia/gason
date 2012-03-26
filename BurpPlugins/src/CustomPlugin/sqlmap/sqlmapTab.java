@@ -56,6 +56,7 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
     private JTabbedPane tabpanel;
     private Thread _th;
     private ForkWorker _for;
+    private boolean _debug;
 
     // A private subclass of the default highlight painter
     class MyHighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
@@ -64,10 +65,10 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
         }
     }
 
-
     /** Creates new form PluginTab */
-    public sqlmapTab(List command, String URL, JTabbedPane tabPane) throws IOException {
+    public sqlmapTab(List command, String URL, JTabbedPane tabPane, boolean  debug) throws IOException {
         this.tabpanel = tabPane;
+        this._debug = debug;
         initComponents();
 
         this.txt_URL.setText(URL);
@@ -75,9 +76,9 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
         // Run process
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.start();
-        
+
         builder.redirectErrorStream(true);
-        this._for = new ForkWorker(this.txt_console, builder);
+        this._for = new ForkWorker(this.txt_console, builder, _debug);
     }
 
     public void run() {
@@ -273,15 +274,17 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
 /**
  * This class execute a command in new thread and display results into jtextpane
  * 
- * @author dani
+ * @author http://www.onyxbits.de/content/executing-child-process-and-redirecting-output-jtextarea
  */
 class ForkWorker extends SwingWorker<String,String> implements Runnable {
 
+    private boolean  _debug;
     private JTextArea output; // Where to redirect STDERR & STDOUT to
     private ProcessBuilder builder;
     private OutputStream input;
 
-    public ForkWorker(JTextArea output, ProcessBuilder builder) {
+    public ForkWorker(JTextArea output, ProcessBuilder builder, boolean  debug) {
+        this._debug = debug;
         this.output=output;
         this.builder= builder;
     }
@@ -342,13 +345,16 @@ class ForkWorker extends SwingWorker<String,String> implements Runnable {
             this.input = null;
         }
         catch (Exception e) {
+            if(this._debug)
+                System.out.println("[Debug] Exception while executing sqlmap:" + e.toString());
             process.destroy();
             try {
                 this.input.close();
             } catch (IOException ex) {
+                if(this._debug)
+                    System.out.println("[Debug] Exception while executing sqlmap:" + ex.toString());
             }
             this.input = null;
-            System.out.println("Error: " + e);
         }
         return "";  // Don't care
     }
