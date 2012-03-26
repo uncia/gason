@@ -3,7 +3,7 @@ Current verion: 0.9.4
 Version 0.9.4
 =============
 - Fixed: Error while parsing params to add at "-p" parameter of sqlmap.
-- Fixed: Error while modifing parameters or request in listbox. Thanks to @aloneintheshell for the report.
+- Fixed: Error while modifing parameters of request in listbox. Thanks to @aloneintheshell for the report.
 - Added new option: Debug mode, that write into console debug information for report bugs and errors.
 - Added reconnaissance of cheat code into source code: sqlmapTab.java:ForkWorker:@autorl
 
