@@ -1,23 +1,23 @@
 /*
-SQLmap Wrapper for Burpsuite.
-Copyright (C) 2011-2012  Daniel Garcia (cr0hn) | dani@iniqua.com | twitter: @ggdaniel
+    GASON: SQLmap Wrapper for Burpsuite.
+    Copyright (C) 2011-2012  Daniel Garcia (cr0hn) | dani@iniqua.com | twitter: @ggdaniel
+    Project page: http://code.google.com/p/gason/
 
-Based on code of @NighterMan
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 /*
  * PluginTab.java
  *
@@ -54,7 +54,6 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
 
     Highlighter.HighlightPainter myHighlightPainter = new MyHighlightPainter(Color.YELLOW);
     private JTabbedPane tabpanel;
-    private Thread _th;
     private ForkWorker _for;
     private boolean _debug;
 
@@ -81,6 +80,7 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
         this._for = new ForkWorker(this.txt_console, builder, _debug);
     }
 
+    @Override
     public void run() {
         this._for.execute();
     }
@@ -108,17 +108,10 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
 
         txt_console.setBackground(new java.awt.Color(0, 0, 0));
         txt_console.setColumns(20);
-        txt_console.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txt_console.setFont(new java.awt.Font("Dialog", 0, 14));
         txt_console.setForeground(new java.awt.Color(102, 204, 0));
         txt_console.setLineWrap(true);
         txt_console.setRows(5);
-        txt_console.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txt_consoleInputMethodTextChanged(evt);
-            }
-        });
         txt_console.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_consoleKeyPressed(evt);
@@ -134,8 +127,8 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
         jLabel1.setBounds(10, 570, 43, 15);
 
         txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_searchKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_searchKeyReleased(evt);
             }
         });
         add(txt_search);
@@ -189,7 +182,6 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
     }//GEN-LAST:event_btn_select_fileActionPerformed
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        //this.setVisible(false);
         this.tabpanel.remove(this);
     }//GEN-LAST:event_btn_closeActionPerformed
 
@@ -197,15 +189,11 @@ public class sqlmapTab extends javax.swing.JPanel implements Runnable {
         this._for.Update(evt.getKeyChar());
     }//GEN-LAST:event_txt_consoleKeyPressed
 
-    private void txt_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyTyped
-
-    }//GEN-LAST:event_txt_searchKeyTyped
-
-    private void txt_consoleInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txt_consoleInputMethodTextChanged
+    private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
         removeHighlights(txt_console);
         if(!txt_search.getText().isEmpty())
             highlight(txt_console, txt_search.getText());
-    }//GEN-LAST:event_txt_consoleInputMethodTextChanged
+    }//GEN-LAST:event_txt_searchKeyReleased
 
 
     /**

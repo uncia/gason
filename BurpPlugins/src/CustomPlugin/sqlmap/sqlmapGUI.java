@@ -1,20 +1,21 @@
 /*
-SQLmap Wrapper for Burpsuite.
-Copyright (C) 2011-2012  Daniel Garcia (cr0hn) | dani@iniqua.com | twitter: @ggdaniel
+    GASON: SQLmap Wrapper for Burpsuite.
+    Copyright (C) 2011-2012  Daniel Garcia (cr0hn) | dani@iniqua.com | twitter: @ggdaniel
+    Project page: http://code.google.com/p/gason/
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 /*
@@ -26,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 package CustomPlugin.sqlmap;
 
 import CustomPlugin.HTTPDataTransform;
-import burp.interfaces.IHttpRequestResponse;
+import burp.IHttpRequestResponse;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -1246,9 +1247,9 @@ public class sqlmapGUI extends javax.swing.JFrame {
 
         bnt_run.setText("Run");
         bnt_run.setName("cmd_run"); // NOI18N
-        bnt_run.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnt_runActionPerformed(evt);
+        bnt_run.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bnt_runMouseClicked(evt);
             }
         });
         jPanel4.add(bnt_run);
@@ -1319,10 +1320,6 @@ public class sqlmapGUI extends javax.swing.JFrame {
 
         this.setVisible(false);
 }//GEN-LAST:event_btn_cancelActionPerformed
-
-    private void bnt_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnt_runActionPerformed
-        this.Execute(this.cmb_urls.getSelectedItem().toString());
-}//GEN-LAST:event_bnt_runActionPerformed
 
     private void txt_optimization_threadsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_optimization_threadsKeyReleased
         txt_command.setText(this.GetCommandString(cmb_urls.getSelectedItem().toString()));
@@ -1469,6 +1466,10 @@ public class sqlmapGUI extends javax.swing.JFrame {
     private void cmb_riskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_riskActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb_riskActionPerformed
+
+    private void bnt_runMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bnt_runMouseClicked
+        this.Execute(this.cmb_urls.getSelectedItem().toString());
+    }//GEN-LAST:event_bnt_runMouseClicked
 
     
 
