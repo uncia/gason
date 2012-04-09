@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 package CustomPlugin.sqlmap;
 
 import CustomPlugin.HTTPDataTransform;
-import burp.IHttpRequestResponse;
+import burp.interfaces.IHttpRequestResponse;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -40,12 +40,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public class sqlmapGUI extends javax.swing.JFrame {
 
@@ -63,18 +62,20 @@ public class sqlmapGUI extends javax.swing.JFrame {
 
         this.getRootPane().setDefaultButton(this.bnt_run);
         this.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     public void AddURL(IHttpRequestResponse URLs_) throws Exception{
 
         if(URLs_ != null && URLs_.getUrl().toString() != null)
         {
+            // URL
             this.URLs.put(URLs_.getUrl().toString(), URLs_);
 
             // Configure GUI components
             this.cmb_urls.addItem(URLs_.getUrl().toString());
 
-            // Find binary
+            // Find binary of sqlmap
             if(!(new File(sqlmapGUI.command).exists()))
             {
                 txt_bin.setForeground(Color.RED);
@@ -102,29 +103,42 @@ public class sqlmapGUI extends javax.swing.JFrame {
         {
             IHttpRequestResponse l_req = this.URLs.get(url);
 
-            // Select method
+            String m_method = HTTPDataTransform.getMethod(l_req).toLowerCase();
+
+            // Select method: POST/GET
             for(int i=0; i < this.cmb_method.getItemCount(); i++)
             {
-                if (this.cmb_action.getItemAt(i).equals(HTTPDataTransform.getMethod(l_req)))
+                if (this.cmb_method.getItemAt(i).toString().toLowerCase().equals(m_method))
                 {
                     this.cmb_method.setSelectedIndex(i);
                     break;
                 }
             }
 
-            // Set cookie
+           // Set cookie
            txt_cookie.setText(HTTPDataTransform.getCookie(l_req));
            
-           // Clear
+           // Reset params list
            this.lst_params.setModel(new DefaultComboBoxModel());
 
            // Fill parameters list
-           if (l_req.getUrl().getQuery() != null)
+           ArrayList<String> l_params = null;
+           if("get".equals(m_method))
            {
-               ArrayList<String> l_params = this._getParameters(l_req.getUrl().getQuery());
-
-               this.lst_params.setModel(new DefaultComboBoxModel((Object[])l_params.toArray()));
+               if (l_req.getUrl().getQuery() != null)
+               {
+                    l_params = this._getParameters(l_req.getUrl().getQuery());
+               }
+           }else
+           {
+                if("post".equals(m_method))
+                {
+                    l_params = this._getParameters(HTTPDataTransform.getPOSTData(l_req));
+                }
            }
+
+           if(l_params != null)
+                this.lst_params.setModel(new DefaultComboBoxModel((Object[])l_params.toArray()));
 
            txt_command.setText(this.GetCommandString(url));
        }
@@ -134,14 +148,17 @@ public class sqlmapGUI extends javax.swing.JFrame {
      * Get an array with each GET parameter of URL
      *
      * @param query: Raw URL string
-     * @return
+     * @return Array list with parsed parameters.
      */
     private ArrayList<String> _getParameters(String query)
     {
-       ArrayList<String> l_list = new ArrayList<String>(15);
+        if(query == null || "".equals(query))
+            return null;
 
-       if(query != null && !query.isEmpty())
-       {
+        ArrayList<String> l_list = new ArrayList<String>(15);
+
+        if(query != null && !query.isEmpty())
+        {
            String l_url_splited[] = query.split("&");
 
            for (int param = 0; param < l_url_splited.length; param++)
@@ -156,7 +173,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
                    l_list.add(l_param_new);
                }
            }
-       }
+        }
 
        return l_list;
     }
@@ -166,7 +183,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
         List<String> l_params = new ArrayList<String>();
 
         String l_dbms[] = {"","mysql", "oracle", "postgresql", "mssql", "access", "sqlite", "firebird", "sybase", "maxdb", "db2"};
-        String l_action[] = {"","--users", "--passwords", "--priviledges", "--roles", "--dbs", "--tables", "--columns", "--schema", "--dump", "--dump-all"};
+        String l_action[] = {"","--users", "--passwords", "--privileges", "--roles", "--dbs", "--tables", "--columns", "--schema", "--dump", "--dump-all"};
         String l_tampers[] = {"apostrophemask","appendnullbyte","base64encode","between","chardoubleencode","charencode","charunicodeencode","equaltolike","halfversionedmorekeywords","ifnull2ifisnull","modsecurityversioned","modsecurityzeroversioned","multiplespaces","percentage","randomcase","randomcomments","securesphere","space2comment","space2dash","space2hash","space2morehash","space2mssqlblank","space2mssqlhash","space2mysqlblank","space2mysqldash","space2plus","space2randomblank","unmagicquotes","versionedkeywords","versionedmorekeywords"};
         String l_optimizations[] = {"-o", "--predict-output", "--keep-alive", "--null-connection"};
 
@@ -600,7 +617,7 @@ public class sqlmapGUI extends javax.swing.JFrame {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setTitle("SQLMap wrapper v0.9.3 - by Cr0hn (@ggdaniel)");
+        setTitle("SQLMap wrapper v0.9.5 - by Cr0hn (@ggdaniel)");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

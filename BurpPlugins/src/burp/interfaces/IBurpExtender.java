@@ -1,4 +1,4 @@
-package burp;
+package burp.interfaces;
 
 /*
  * @(#)IBurpExtender.java
@@ -141,7 +141,7 @@ public interface IBurpExtender
      * @param callbacks An implementation of the 
      * <code>IBurpExtenderCallbacks</code> interface.
      */
-    public void registerExtenderCallbacks(burp.IBurpExtenderCallbacks callbacks);
+    public void registerExtenderCallbacks(burp.interfaces.IBurpExtenderCallbacks callbacks);
     
     /**
      * This method is invoked immediately before Burp Suite exits. 

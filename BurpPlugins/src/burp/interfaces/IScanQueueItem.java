@@ -1,4 +1,4 @@
-package burp;
+package burp.interfaces;
 
 /*
  * @(#)IScanQueueItem.java

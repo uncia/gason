@@ -48,7 +48,7 @@ import javax.swing.text.JTextComponent;
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public class sqlmapTab extends javax.swing.JPanel implements Runnable {
 

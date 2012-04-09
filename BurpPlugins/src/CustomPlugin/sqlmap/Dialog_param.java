@@ -13,7 +13,7 @@ package CustomPlugin.sqlmap;
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public class Dialog_param extends javax.swing.JDialog {
     public String param_name;

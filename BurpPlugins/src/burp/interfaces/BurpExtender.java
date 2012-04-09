@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 
-package burp;
+package burp.interfaces;
 
 import CustomPlugin.sqlmapplugin;
 import java.util.logging.Level;
@@ -27,27 +27,33 @@ import javax.swing.JOptionPane;
 
 public class BurpExtender implements IBurpExtender
 {
+    @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks)
     {
         callbacks.registerMenuItem("send to sqlmap", new SQLMapManager());
     }
 
+    @Override
     public void setCommandLineArgs(String[] args) {
-
+        
     }
 
+    @Override
     public byte[] processProxyMessage(int messageReference, boolean messageIsRequest, String remoteHost, int remotePort, boolean serviceIsHttps, String httpMethod, String url, String resourceType, String statusCode, String responseContentType, byte[] message, int[] action) {
         return null;
     }
 
+    @Override
     public void applicationClosing() {
-
+        
     }
 
+    @Override
     public void processHttpMessage(String toolName, boolean messageIsRequest, IHttpRequestResponse messageInfo) {
-
+        
     }
 
+    @Override
     public void newScanIssue(IScanIssue issue) {
         
     }
@@ -56,6 +62,7 @@ public class BurpExtender implements IBurpExtender
 
 class SQLMapManager implements IMenuItemHandler
 {
+
     public void menuItemClicked(String menuItemCaption, IHttpRequestResponse[] messageInfo) {
         if(messageInfo != null)
         {
@@ -65,7 +72,7 @@ class SQLMapManager implements IMenuItemHandler
 
                     if(messageInfo != null)
                     {
-                        sqlmapplugin.getInstance().Run(messageInfo[i]);
+                        sqlmapplugin.getInstance().AddURL(messageInfo[i]);
                     }
                     
                 } catch (Exception ex) {
@@ -77,6 +84,5 @@ class SQLMapManager implements IMenuItemHandler
             JOptionPane.showMessageDialog(null, "No URL to send.","Message can't be send", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    
+  
 }

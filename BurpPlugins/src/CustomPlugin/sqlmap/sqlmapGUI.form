@@ -49,7 +49,7 @@
     </Container>
   </NonVisualComponents>
   <Properties>
-    <Property name="title" type="java.lang.String" value="SQLMap wrapper v0.9.3 - by Cr0hn (@ggdaniel)"/>
+    <Property name="title" type="java.lang.String" value="SQLMap wrapper v0.9.5 - by Cr0hn (@ggdaniel)"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

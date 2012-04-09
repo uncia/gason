@@ -21,10 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 package CustomPlugin;
 
 import CustomPlugin.sqlmap.sqlmapGUI;
-import burp.IHttpRequestResponse;
+import burp.interfaces.IHttpRequestResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 
 
 public class sqlmapplugin extends HTTPDataTransform implements IPlugin {
@@ -48,8 +47,11 @@ public class sqlmapplugin extends HTTPDataTransform implements IPlugin {
     }
     // End singleton pattern
 
-    public void Run(IHttpRequestResponse URLs) {
+    @Override
+    public void AddURL(IHttpRequestResponse URLs) {
+        
         try {
+            System.out.println("entraaaa");
             this._frame.AddURL(URLs);
 
             if (!this._frame.isVisible())

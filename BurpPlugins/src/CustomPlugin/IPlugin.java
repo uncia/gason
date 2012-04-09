@@ -19,12 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 package CustomPlugin;
 
-import burp.IHttpRequestResponse;
+import burp.interfaces.IHttpRequestResponse;
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public interface IPlugin {
-    public void Run(IHttpRequestResponse URLs);
+    public void AddURL(IHttpRequestResponse URLs);
 }

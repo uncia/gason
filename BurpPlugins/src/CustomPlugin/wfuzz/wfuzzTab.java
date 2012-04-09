@@ -48,7 +48,7 @@ import javax.swing.text.JTextComponent;
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public class wfuzzTab extends javax.swing.JPanel implements Runnable {
 
@@ -298,7 +298,7 @@ public class wfuzzTab extends javax.swing.JPanel implements Runnable {
 /**
  * This class execute a command in new thread and display results into jtextpane
  * 
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 class ForkWorker extends SwingWorker<String,String> implements Runnable {
 

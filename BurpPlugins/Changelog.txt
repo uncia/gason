@@ -1,4 +1,14 @@
-Current verion: 0.9.4
+Current verion: 0.9.5
+
+Version 0.9.5
+=============
+- Feature: Added new stand alone launcher to run Wrapper without BurpSuite.
+- Fixed: Management of POST parameters. Thanks to @smvicente for the report.
+- Fixed: Management of HTTP methods.
+- Fixed: Version number of title.
+- Fixed: wrong parameters transform for "privileges" option. Thanks to Robin Wood for the report.
+- Some minor fixes.
+
 
 Version 0.9.4
 =============

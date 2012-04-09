@@ -21,11 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 package CustomPlugin;
 
-import burp.IHttpRequestResponse;
+import burp.interfaces.IHttpRequestResponse;
 
 /**
  *
- * @author dani
+ * @author Daniel Garcia Garcia (cr0hn) - dani@iniqua.com
  */
 public class HTTPDataTransform {
    
